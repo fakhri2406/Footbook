@@ -2,8 +2,8 @@ namespace Footbook.Core.Enums;
 
 public enum NotificationType
 {
-    WindowFull,
+    SlotFull,
+    SlotBlocked,
     MatchStartingSoon,
-    WindowBlocked,
     Custom
 } 

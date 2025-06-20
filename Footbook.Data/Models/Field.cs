@@ -8,10 +8,10 @@ public class Field
     
     public string Name { get; set; } = null!;
     public FieldType FieldType { get; set; }
-    public int Capacity { get; set; } = 12;
+    public int Capacity { get; set; }
     
     public Guid StadiumId { get; set; }
     public Stadium Stadium { get; set; } = null!;
     
-    public ICollection<TimeWindow> TimeWindows { get; set; } = new List<TimeWindow>();
+    public ICollection<Slot> TimeWindows { get; set; } = new List<Slot>();
 } 

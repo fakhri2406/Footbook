@@ -1,6 +1,6 @@
 namespace Footbook.Core.Enums;
 
-public enum WindowStatus
+public enum SlotStatus
 {
     Open,
     Booked,

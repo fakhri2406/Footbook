@@ -2,13 +2,13 @@ using Footbook.Core.Enums;
 
 namespace Footbook.Data.Models;
 
-public class TimeWindow
+public class Slot
 {
     public Guid Id { get; set; }
     
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    public WindowStatus Status { get; set; }
+    public SlotStatus Status { get; set; }
     
     public Guid FieldId { get; set; }
     public Field Field { get; set; } = null!;

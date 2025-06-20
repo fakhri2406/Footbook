@@ -11,7 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Stadium> Stadiums { get; set; }
     public DbSet<Field> Fields { get; set; }
-    public DbSet<TimeWindow> TimeWindows { get; set; }
+    public DbSet<Slot> Slots { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<TeamMember> TeamMembers { get; set; }
