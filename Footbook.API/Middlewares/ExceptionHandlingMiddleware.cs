@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using System.Security;
 
 namespace Footbook.API.Middlewares;
 
@@ -25,14 +26,24 @@ public class ExceptionHandlingMiddleware
             _logger.LogWarning(ex, "Not Found");
             await HandleExceptionAsync(context, ex.Message, StatusCodes.Status404NotFound);
         }
+        catch (SecurityException ex)
+        {
+            _logger.LogWarning(ex, "Security Exception");
+            await HandleExceptionAsync(context, ex.Message, StatusCodes.Status401Unauthorized);
+        }
         catch (UnauthorizedAccessException ex)
         {
             _logger.LogWarning(ex, "Access Denied");
-            await HandleExceptionAsync(context, ex.Message, StatusCodes.Status401Unauthorized);
+            await HandleExceptionAsync(context, ex.Message, StatusCodes.Status403Forbidden);
         }
         catch (ArgumentException ex)
         {
             _logger.LogWarning(ex, "Invalid Argument");
+            await HandleExceptionAsync(context, ex.Message, StatusCodes.Status400BadRequest);
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogWarning(ex, "Invalid Operation");
             await HandleExceptionAsync(context, ex.Message, StatusCodes.Status400BadRequest);
         }
         catch (Exception ex)

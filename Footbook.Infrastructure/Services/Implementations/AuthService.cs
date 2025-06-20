@@ -1,0 +1,119 @@
+using System.Security;
+using Footbook.Core.DTOs.Requests.Auth;
+using Footbook.Core.DTOs.Responses.Auth;
+using Footbook.Data.Models;
+using Footbook.Data.Repositories.Interfaces;
+using Footbook.Infrastructure.Services.Interfaces;
+using Footbook.Infrastructure.Tokens;
+using Footbook.Infrastructure.Helpers;
+
+namespace Footbook.Infrastructure.Services.Implementations;
+
+public class AuthService : IAuthService
+{
+    private readonly IAuthRepository _authRepository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly ITokenGenerator _tokenGenerator;
+    
+    public AuthService(
+        IAuthRepository authRepository,
+        IRoleRepository roleRepository,
+        ITokenGenerator tokenGenerator)
+    {
+        _authRepository = authRepository;
+        _roleRepository = roleRepository;
+        _tokenGenerator = tokenGenerator;
+    }
+    
+    public async Task<AuthResponse> SignupAsync(SignupRequest request)
+    {
+        if (await _authRepository.GetByEmailAsync(request.Email) != null)
+        {
+            throw new ArgumentException("Email already exists.");
+        }
+        
+        if (await _authRepository.GetByPhoneNumberAsync(request.PhoneNumber) != null)
+        {
+            throw new ArgumentException("Phone number already exists.");
+        }
+        
+        var role = await _roleRepository.GetByNameAsync("User")
+                   ?? throw new InvalidOperationException("Default user role not found.");
+        var user = request.MapToUser(role.Id);
+        
+        await _authRepository.CreateAsync(user);
+        
+        var accessToken = _tokenGenerator.GenerateAccessToken(user);
+        var refreshTokenValue = _tokenGenerator.GenerateRefreshToken();
+        var refreshToken = new RefreshToken
+        {
+            Token = refreshTokenValue,
+            UserId = user.Id,
+            ExpiresAt = DateTime.UtcNow.AddDays(7)
+        };
+        
+        await _authRepository.CreateRefreshTokenAsync(refreshToken);
+        
+        return new AuthResponse(accessToken, refreshTokenValue);
+    }
+    
+    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    {
+        var user = await _authRepository.GetByEmailAsync(request.Email)
+                   ?? throw new KeyNotFoundException("Invalid email or password.");
+        
+        var hashed = Hasher.HashPassword(request.Password + user.PasswordSalt);
+        if (hashed != user.PasswordHash)
+        {
+            throw new KeyNotFoundException("Invalid email or password.");
+        }
+        
+        user.LastLoginAt = DateTime.UtcNow;
+        await _authRepository.UpdateAsync(user);
+        
+        var accessToken = _tokenGenerator.GenerateAccessToken(user);
+        var refreshTokenValue = _tokenGenerator.GenerateRefreshToken();
+        var refreshToken = new RefreshToken
+        {
+            Token = refreshTokenValue,
+            UserId = user.Id,
+            ExpiresAt = DateTime.UtcNow.AddDays(7)
+        };
+        
+        await _authRepository.CreateRefreshTokenAsync(refreshToken);
+        
+        return new AuthResponse(accessToken, refreshTokenValue);
+    }
+    
+    public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
+    {
+        var existing = await _authRepository.GetRefreshTokenAsync(request.RefreshToken)
+                       ?? throw new KeyNotFoundException("Invalid refresh token.");
+
+        if (existing.ExpiresAt < DateTime.UtcNow)
+        {
+            throw new SecurityException("Refresh token has expired.");
+        }
+
+        var user = existing.User;
+        await _authRepository.RemoveRefreshTokenAsync(existing.Token);
+
+        var accessToken = _tokenGenerator.GenerateAccessToken(user);
+        var newRefreshTokenValue = _tokenGenerator.GenerateRefreshToken();
+        var newRefreshToken = new RefreshToken
+        {
+            Token = newRefreshTokenValue,
+            UserId = user.Id,
+            ExpiresAt = DateTime.UtcNow.AddDays(7)
+        };
+        
+        await _authRepository.CreateRefreshTokenAsync(newRefreshToken);
+        
+        return new AuthResponse(accessToken, newRefreshTokenValue);
+    }
+    
+    public async Task LogoutAsync(LogoutRequest request)
+    {
+        await _authRepository.RemoveAllRefreshTokensAsync(request.UserId);
+    }
+} 

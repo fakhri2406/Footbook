@@ -7,6 +7,8 @@ using Footbook.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Serilog
+
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
@@ -14,6 +16,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
+
+#endregion
 
 builder.Services.AddControllers();
 
@@ -26,9 +30,15 @@ builder.Services.AddExternalServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    #region Swagger Documentation
+    
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
+    
+    #endregion
+    
+    #region Swagger Auth
 
     var securityScheme = new OpenApiSecurityScheme
     {
@@ -49,7 +59,11 @@ builder.Services.AddSwaggerGen(options =>
     {
         { securityScheme, Array.Empty<string>() }
     });
+    
+    #endregion
 });
+
+#region CORS
 
 builder.Services.AddCors(options =>
 {
@@ -59,6 +73,8 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowCredentials());
 });
+
+#endregion
 
 var app = builder.Build();
 
