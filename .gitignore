@@ -39,6 +39,7 @@ Logs/
 ScaffoldingReadMe.txt
 
 # User secrets and environment files
+appsettings.Development.json
 secrets.json
 .env
 .env.*

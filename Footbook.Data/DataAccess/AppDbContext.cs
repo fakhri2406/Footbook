@@ -9,7 +9,6 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Stadium> Stadiums { get; set; }
     public DbSet<Field> Fields { get; set; }
     public DbSet<TimeWindow> TimeWindows { get; set; }
@@ -23,21 +22,8 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<UserRole>()
-            .HasKey(ur => new { ur.UserId, ur.RoleId });
-
         modelBuilder.Entity<TeamMember>()
             .HasKey(tm => new { tm.TeamId, tm.UserId });
-
-        modelBuilder.Entity<UserRole>()
-            .HasOne(ur => ur.User)
-            .WithMany(u => u.UserRoles)
-            .HasForeignKey(ur => ur.UserId);
-
-        modelBuilder.Entity<UserRole>()
-            .HasOne(ur => ur.Role)
-            .WithMany(r => r.UserRoles)
-            .HasForeignKey(ur => ur.RoleId);
 
         modelBuilder.Entity<TeamMember>()
             .HasOne(tm => tm.Team)

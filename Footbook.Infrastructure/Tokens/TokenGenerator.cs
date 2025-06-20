@@ -20,19 +20,11 @@ public class TokenGenerator : ITokenGenerator
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim("id", user.Id.ToString()),
+            new Claim("role", user.Role!.Name),
+            new Claim("firstName", user.FirstName),
+            new Claim("lastName", user.LastName),
+            new Claim("skillLevel", user.SkillLevel.ToString())
         };
-
-        if (user.UserRoles != null)
-        {
-            claims.AddRange(
-                user.UserRoles.Select(ur =>
-                    new Claim(ClaimTypes.Role, ur.Role.Name))
-            );
-        }
-
-        claims.Add(new Claim("firstName", user.FirstName));
-        claims.Add(new Claim("lastName", user.LastName));
-        claims.Add(new Claim("skillLevel", user.SkillLevel.ToString()));
 
         var token = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,
@@ -46,8 +38,5 @@ public class TokenGenerator : ITokenGenerator
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
     
-    public string GenerateRefreshToken()
-    {
-        return Guid.NewGuid().ToString();
-    }
+    public string GenerateRefreshToken() => Guid.NewGuid().ToString();
 }

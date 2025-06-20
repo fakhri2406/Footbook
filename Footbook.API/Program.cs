@@ -7,7 +7,6 @@ using Footbook.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Serilog configuration
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
@@ -27,12 +26,10 @@ builder.Services.AddExternalServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    // Swagger XML comments
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
 
-    // Swagger JWT Authorization
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -65,11 +62,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Middlewares
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 
-// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -86,8 +81,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
