@@ -1,4 +1,5 @@
 using System.Text;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using Footbook.Data.Repositories.Interfaces;
 using Footbook.Data.Repositories.Implementations;
 using Footbook.Infrastructure.Services.Interfaces;
 using Footbook.Infrastructure.Services.Implementations;
+using Footbook.Infrastructure.Validators.Auth;
 
 namespace Footbook.Infrastructure.ServiceCollectionExtensions;
 
@@ -83,6 +85,12 @@ public static class DependencyInjection
                 };
             });
         
+        return services;
+    }
+
+    public static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining<SignupRequestValidator>();
         return services;
     }
     

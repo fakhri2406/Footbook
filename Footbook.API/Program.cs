@@ -25,6 +25,7 @@ builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddValidators();
 builder.Services.AddExternalServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
