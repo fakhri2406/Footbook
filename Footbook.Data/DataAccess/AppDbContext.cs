@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Footbook.Data.Models;
+using System;
 
 namespace Footbook.Data.DataAccess;
 
@@ -21,7 +22,12 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        
+        modelBuilder.Entity<Role>().HasData(
+            new Role { Id = Guid.NewGuid(), Name = "Admin" },
+            new Role { Id = Guid.NewGuid(), Name = "User" }
+        );
+        
         modelBuilder.Entity<TeamMember>()
             .HasKey(tm => new { tm.TeamId, tm.UserId });
 

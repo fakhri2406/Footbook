@@ -101,7 +101,7 @@ public class BookingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateBookingRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateBookingRequest request)
     {
         var response = await _bookingService.CreateAsync(request);
         return CreatedAtAction(nameof(GetAll), null, response);
@@ -124,7 +124,7 @@ public class BookingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateBookingRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateBookingRequest request)
     {
         var response = await _bookingService.UpdateAsync(id, request);
         return Ok(response);

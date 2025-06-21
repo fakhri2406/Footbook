@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using Footbook.Core.Enums;
 
 namespace Footbook.Data.Models;
 
 public class Booking
 {
+    [Key]
     public Guid Id { get; set; }
     
     public BookingStatus Status { get; set; }

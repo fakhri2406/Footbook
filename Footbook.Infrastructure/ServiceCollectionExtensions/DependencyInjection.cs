@@ -47,8 +47,30 @@ public static class DependencyInjection
     
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
+        #region Azure SQLServer DB
+        
+        // services.AddDbContext<AppDbContext>(options =>
+        //     options.UseSqlServer(
+        //         configuration.GetConnectionString("DefaultConnection"),
+        //         sqlServerOptions => 
+        //         {
+        //             sqlServerOptions.EnableRetryOnFailure(
+        //                 maxRetryCount: 5,
+        //                 maxRetryDelay: TimeSpan.FromSeconds(10),
+        //                 errorNumbersToAdd: null);
+        //             sqlServerOptions.MigrationsAssembly("Footbook.Data");
+        //         }));
+        
+        #endregion
+        
+        #region Local DB
+        
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(
+                configuration.GetConnectionString("LocalConnection")));
+        
+        #endregion
+        
         return services;
     }
     

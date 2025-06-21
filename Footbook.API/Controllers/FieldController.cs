@@ -67,7 +67,7 @@ public class FieldController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateFieldRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateFieldRequest request)
     {
         var response = await _fieldService.CreateAsync(request);
         return CreatedAtAction(nameof(GetAll), null, response);
@@ -92,7 +92,7 @@ public class FieldController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateFieldRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateFieldRequest request)
     {
         var response = await _fieldService.UpdateAsync(id, request);
         return Ok(response);

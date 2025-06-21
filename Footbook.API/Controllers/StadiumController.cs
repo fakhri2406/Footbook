@@ -67,7 +67,7 @@ public class StadiumController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateStadiumRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateStadiumRequest request)
     {
         var response = await _stadiumService.CreateAsync(request);
         return CreatedAtAction(nameof(GetAll), null, response);
@@ -92,7 +92,7 @@ public class StadiumController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateStadiumRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateStadiumRequest request)
     {
         var response = await _stadiumService.UpdateAsync(id, request);
         return Ok(response);

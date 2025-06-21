@@ -84,7 +84,7 @@ public class SlotController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateSlotRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateSlotRequest request)
     {
         var response = await _slotService.CreateAsync(request);
         return CreatedAtAction(nameof(GetAll), null, response);
@@ -107,7 +107,7 @@ public class SlotController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSlotRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateSlotRequest request)
     {
         var response = await _slotService.UpdateAsync(id, request);
         return Ok(response);

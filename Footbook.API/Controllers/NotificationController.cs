@@ -50,7 +50,7 @@ public class NotificationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateNotificationRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateNotificationRequest request)
     {
         var response = await _notificationService.CreateAsync(request);
         return CreatedAtAction(nameof(GetByUser), new { userId = request.UserId }, response);

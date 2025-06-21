@@ -82,7 +82,7 @@ public class TeamController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody] CreateTeamRequest request)
+    public async Task<IActionResult> Create([FromForm] CreateTeamRequest request)
     {
         var response = await _teamService.CreateAsync(request);
         return CreatedAtAction(nameof(GetAll), null, response);
@@ -99,7 +99,7 @@ public class TeamController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> AddMembers([FromRoute] Guid id, [FromBody] IEnumerable<Guid> userIds)
+    public async Task<IActionResult> AddMembers([FromRoute] Guid id, [FromForm] IEnumerable<Guid> userIds)
     {
         await _teamService.AddMembersAsync(id, userIds);
         return NoContent();
@@ -122,7 +122,7 @@ public class TeamController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTeamRequest request)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromForm] UpdateTeamRequest request)
     {
         var response = await _teamService.UpdateAsync(id, request);
         return Ok(response);

@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using Footbook.Core.Enums;
 
 namespace Footbook.Data.Models;
 
 public class User
 {
+    [Key]
     public Guid Id { get; set; }
     
     public string FirstName { get; set; } = null!;
@@ -20,7 +22,7 @@ public class User
     
     public Guid RoleId { get; set; }
     public Role? Role { get; set; }
-
+    
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
