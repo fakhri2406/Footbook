@@ -1,3 +1,4 @@
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Notification;
 using Footbook.Core.DTOs.Responses.Notification;
 using Footbook.Data.Repositories.Interfaces;
@@ -9,12 +10,20 @@ namespace Footbook.Infrastructure.Services.Implementations;
 public class NotificationService : INotificationService
 {
     private readonly INotificationRepository _notificationRepository;
+    private readonly IValidator<CreateNotificationRequest> _createNotificationValidator;
     
-    public NotificationService(INotificationRepository notificationRepository)
-        => _notificationRepository = notificationRepository;
+    public NotificationService(
+        INotificationRepository notificationRepository,
+        IValidator<CreateNotificationRequest> createNotificationValidator)
+    {
+        _notificationRepository = notificationRepository;
+        _createNotificationValidator = createNotificationValidator;
+    }
     
     public async Task<NotificationResponse> CreateAsync(CreateNotificationRequest request)
     {
+        await _createNotificationValidator.ValidateAndThrowAsync(request);
+        
         var notification = request.MapToNotification();
         var created = await _notificationRepository.CreateAsync(notification);
         return created.MapToNotificationResponse();

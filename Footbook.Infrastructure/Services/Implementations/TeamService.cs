@@ -1,3 +1,4 @@
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Team;
 using Footbook.Core.DTOs.Responses.Team;
 using Footbook.Data.Repositories.Interfaces;
@@ -11,17 +12,25 @@ public class TeamService : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
     private readonly ITeamMemberRepository _teamMemberRepository;
+    private readonly IValidator<CreateTeamRequest> _createTeamValidator;
+    private readonly IValidator<UpdateTeamRequest> _updateTeamValidator;
     
     public TeamService(
         ITeamRepository teamRepository,
-        ITeamMemberRepository teamMemberRepository)
+        ITeamMemberRepository teamMemberRepository,
+        IValidator<CreateTeamRequest> createTeamValidator,
+        IValidator<UpdateTeamRequest> updateTeamValidator)
     {
         _teamRepository = teamRepository;
         _teamMemberRepository = teamMemberRepository;
+        _createTeamValidator = createTeamValidator;
+        _updateTeamValidator = updateTeamValidator;
     }
     
     public async Task<CreateTeamResponse> CreateAsync(CreateTeamRequest request)
     {
+        await _createTeamValidator.ValidateAndThrowAsync(request);
+        
         var team = request.MapToTeam();
         var created = await _teamRepository.CreateAsync(team);
         
@@ -59,6 +68,8 @@ public class TeamService : ITeamService
     
     public async Task<UpdateTeamResponse> UpdateAsync(Guid id, UpdateTeamRequest request)
     {
+        await _updateTeamValidator.ValidateAndThrowAsync(request);
+        
         var team = request.MapToTeam(id);
         var updated = await _teamRepository.UpdateAsync(team);
         

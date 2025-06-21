@@ -1,3 +1,4 @@
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Slot;
 using Footbook.Core.DTOs.Responses.Slot;
 using Footbook.Data.Repositories.Interfaces;
@@ -9,12 +10,23 @@ namespace Footbook.Infrastructure.Services.Implementations;
 public class SlotService : ISlotService
 {
     private readonly ISlotRepository _slotRepository;
+    private readonly IValidator<CreateSlotRequest> _createSlotValidator;
+    private readonly IValidator<UpdateSlotRequest> _updateSlotValidator;
     
-    public SlotService(ISlotRepository slotRepository)
-        => _slotRepository = slotRepository;
+    public SlotService(
+        ISlotRepository slotRepository,
+        IValidator<CreateSlotRequest> createSlotValidator,
+        IValidator<UpdateSlotRequest> updateSlotValidator)
+    {
+        _slotRepository = slotRepository;
+        _createSlotValidator = createSlotValidator;
+        _updateSlotValidator = updateSlotValidator;
+    }
     
     public async Task<CreateSlotResponse> CreateAsync(CreateSlotRequest request)
     {
+        await _createSlotValidator.ValidateAndThrowAsync(request);
+        
         var slot = request.MapToSlot();
         var created = await _slotRepository.CreateAsync(slot);
         return created.MapToCreateSlotResponse();
@@ -46,6 +58,8 @@ public class SlotService : ISlotService
     
     public async Task<UpdateSlotResponse> UpdateAsync(Guid id, UpdateSlotRequest request)
     {
+        await _updateSlotValidator.ValidateAndThrowAsync(request);
+        
         var slot = request.MapToSlot(id);
         var updated = await _slotRepository.UpdateAsync(slot);
         return updated.MapToUpdateSlotResponse();

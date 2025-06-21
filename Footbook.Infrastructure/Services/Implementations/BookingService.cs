@@ -1,3 +1,4 @@
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Booking;
 using Footbook.Core.DTOs.Responses.Booking;
 using Footbook.Data.Repositories.Interfaces;
@@ -10,17 +11,25 @@ public class BookingService : IBookingService
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly ISlotRepository _slotRepository;
+    private readonly IValidator<CreateBookingRequest> _createBookingValidator;
+    private readonly IValidator<UpdateBookingRequest> _updateBookingValidator;
     
     public BookingService(
         IBookingRepository bookingRepository,
-        ISlotRepository slotRepository)
+        ISlotRepository slotRepository,
+        IValidator<CreateBookingRequest> createBookingValidator,
+        IValidator<UpdateBookingRequest> updateBookingValidator)
     {
         _bookingRepository = bookingRepository;
         _slotRepository = slotRepository;
+        _createBookingValidator = createBookingValidator;
+        _updateBookingValidator = updateBookingValidator;
     }
     
     public async Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request)
     {
+        await _createBookingValidator.ValidateAndThrowAsync(request);
+        
         var slot = await _slotRepository.GetByIdAsync(request.SlotId)
                    ?? throw new KeyNotFoundException("Slot not found.");
         
@@ -65,6 +74,8 @@ public class BookingService : IBookingService
     
     public async Task<UpdateBookingResponse> UpdateAsync(Guid id, UpdateBookingRequest request)
     {
+        await _updateBookingValidator.ValidateAndThrowAsync(request);
+        
         var booking = request.MapToBooking(id);
         var updated = await _bookingRepository.UpdateAsync(booking);
         return updated.MapToUpdateBookingResponse();

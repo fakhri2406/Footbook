@@ -1,3 +1,4 @@
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Field;
 using Footbook.Core.DTOs.Responses.Field;
 using Footbook.Data.Repositories.Interfaces;
@@ -9,11 +10,23 @@ namespace Footbook.Infrastructure.Services.Implementations;
 public class FieldService : IFieldService
 {
     private readonly IFieldRepository _fieldRepository;
+    private readonly IValidator<CreateFieldRequest> _createFieldValidator;
+    private readonly IValidator<UpdateFieldRequest> _updateFieldValidator;
     
-    public FieldService(IFieldRepository fieldRepository) => _fieldRepository = fieldRepository;
+    public FieldService(
+        IFieldRepository fieldRepository,
+        IValidator<CreateFieldRequest> createFieldValidator,
+        IValidator<UpdateFieldRequest> updateFieldValidator)
+    {
+        _fieldRepository = fieldRepository;
+        _createFieldValidator = createFieldValidator;
+        _updateFieldValidator = updateFieldValidator;
+    }
     
     public async Task<CreateFieldResponse> CreateAsync(CreateFieldRequest request)
     {
+        await _createFieldValidator.ValidateAndThrowAsync(request);
+        
         var field = request.MapToField();
         var created = await _fieldRepository.CreateAsync(field);
         return created.MapToCreateFieldResponse();
@@ -39,6 +52,8 @@ public class FieldService : IFieldService
     
     public async Task<UpdateFieldResponse> UpdateAsync(Guid id, UpdateFieldRequest request)
     {
+        await _updateFieldValidator.ValidateAndThrowAsync(request);
+        
         var field = request.MapToField(id);
         var updated = await _fieldRepository.UpdateAsync(field);
         return updated.MapToUpdateFieldResponse();

@@ -28,7 +28,7 @@ public static class AutoMapper
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
-            PhoneNumber = request.PhoneNumber,
+            PhoneNumber = "+994" + request.PhoneNumber,
             SkillLevel = request.SkillLevel,
             PasswordSalt = salt,
             PasswordHash = Hasher.HashPassword(request.Password + salt),

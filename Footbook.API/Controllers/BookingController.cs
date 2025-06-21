@@ -98,6 +98,7 @@ public class BookingController : ControllerBase
     [HttpPost]
     [Route(ApiEndPoints.Booking.Create)]
     [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody] CreateBookingRequest request)
@@ -119,6 +120,7 @@ public class BookingController : ControllerBase
     [HttpPut]
     [Route(ApiEndPoints.Booking.Update)]
     [ProducesResponseType(typeof(UpdateBookingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

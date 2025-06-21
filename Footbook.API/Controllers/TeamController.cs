@@ -79,6 +79,7 @@ public class TeamController : ControllerBase
     [HttpPost]
     [Route(ApiEndPoints.Team.Create)]
     [ProducesResponseType(typeof(CreateTeamResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody] CreateTeamRequest request)
@@ -117,6 +118,7 @@ public class TeamController : ControllerBase
     [HttpPut]
     [Route(ApiEndPoints.Team.Update)]
     [ProducesResponseType(typeof(UpdateTeamResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

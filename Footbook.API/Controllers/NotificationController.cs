@@ -47,6 +47,7 @@ public class NotificationController : ControllerBase
     [HttpPost]
     [Route(ApiEndPoints.Notification.Create)]
     [ProducesResponseType(typeof(NotificationResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Create([FromBody] CreateNotificationRequest request)
@@ -67,6 +68,7 @@ public class NotificationController : ControllerBase
     [HttpPut]
     [Route(ApiEndPoints.Notification.MarkAsRead)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

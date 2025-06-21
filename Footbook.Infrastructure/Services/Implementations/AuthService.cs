@@ -1,4 +1,5 @@
 using System.Security;
+using FluentValidation;
 using Footbook.Core.DTOs.Requests.Auth;
 using Footbook.Core.DTOs.Responses.Auth;
 using Footbook.Data.Models;
@@ -14,19 +15,33 @@ public class AuthService : IAuthService
     private readonly IAuthRepository _authRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenGenerator _tokenGenerator;
+    private readonly IValidator<SignupRequest> _signupValidator;
+    private readonly IValidator<LoginRequest> _loginValidator;
+    private readonly IValidator<RefreshTokenRequest> _refreshTokenValidator;
+    private readonly IValidator<LogoutRequest> _logoutValidator;
     
     public AuthService(
         IAuthRepository authRepository,
         IRoleRepository roleRepository,
-        ITokenGenerator tokenGenerator)
+        ITokenGenerator tokenGenerator,
+        IValidator<SignupRequest> signupValidator,
+        IValidator<LoginRequest> loginValidator,
+        IValidator<RefreshTokenRequest> refreshTokenValidator,
+        IValidator<LogoutRequest> logoutValidator)
     {
         _authRepository = authRepository;
         _roleRepository = roleRepository;
         _tokenGenerator = tokenGenerator;
+        _signupValidator = signupValidator;
+        _loginValidator = loginValidator;
+        _refreshTokenValidator = refreshTokenValidator;
+        _logoutValidator = logoutValidator;
     }
     
     public async Task<AuthResponse> SignupAsync(SignupRequest request)
     {
+        await _signupValidator.ValidateAndThrowAsync(request);
+        
         if (await _authRepository.GetByEmailAsync(request.Email) != null)
         {
             throw new ArgumentException("Email already exists.");
@@ -59,6 +74,8 @@ public class AuthService : IAuthService
     
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
     {
+        await _loginValidator.ValidateAndThrowAsync(request);
+        
         var user = await _authRepository.GetByEmailAsync(request.Email)
                    ?? throw new KeyNotFoundException("Invalid email or password.");
         
@@ -87,6 +104,8 @@ public class AuthService : IAuthService
     
     public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request)
     {
+        await _refreshTokenValidator.ValidateAndThrowAsync(request);
+        
         var existing = await _authRepository.GetRefreshTokenAsync(request.RefreshToken)
                        ?? throw new KeyNotFoundException("Invalid refresh token.");
 
@@ -114,6 +133,8 @@ public class AuthService : IAuthService
     
     public async Task LogoutAsync(LogoutRequest request)
     {
+        await _logoutValidator.ValidateAndThrowAsync(request);
+        
         await _authRepository.RemoveAllRefreshTokensAsync(request.UserId);
     }
 } 
