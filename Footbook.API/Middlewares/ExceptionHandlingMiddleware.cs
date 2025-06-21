@@ -55,8 +55,7 @@ public class ExceptionHandlingMiddleware
     
     private static async Task HandleExceptionAsync(HttpContext context, string message, int statusCode)
     {
-        if (context.Response.HasStarted)
-            return;
+        if (context.Response.HasStarted) return;
         
         context.Response.Clear();
         context.Response.ContentType = "application/problem+json";

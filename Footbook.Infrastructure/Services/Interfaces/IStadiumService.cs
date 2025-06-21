@@ -1,6 +1,5 @@
 using Footbook.Core.DTOs.Requests.Stadium;
 using Footbook.Core.DTOs.Responses.Stadium;
-using Footbook.Data.Models;
 
 namespace Footbook.Infrastructure.Services.Interfaces;
 
