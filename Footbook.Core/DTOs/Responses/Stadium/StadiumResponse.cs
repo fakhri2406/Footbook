@@ -2,10 +2,11 @@ using Footbook.Core.Enums;
 
 namespace Footbook.Core.DTOs.Responses.Stadium;
 
-public record UpdateStadiumResponse(
+public record StadiumResponse(
     string Name,
     Branch Branch,
     string Address,
     double Latitude,
-    double Longitude
+    double Longitude,
+    string? ImageUrl
 );

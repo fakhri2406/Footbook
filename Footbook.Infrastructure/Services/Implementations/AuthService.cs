@@ -4,6 +4,7 @@ using Footbook.Core.DTOs.Requests.Auth;
 using Footbook.Core.DTOs.Responses.Auth;
 using Footbook.Data.Models;
 using Footbook.Data.Repositories.Interfaces;
+using Footbook.Infrastructure.ExternalServices.Cloudinary;
 using Footbook.Infrastructure.Services.Interfaces;
 using Footbook.Infrastructure.Tokens;
 using Footbook.Infrastructure.Helpers;
@@ -15,6 +16,7 @@ public class AuthService : IAuthService
     private readonly IAuthRepository _authRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenGenerator _tokenGenerator;
+    private readonly ICloudinaryService _cloudinaryService;
     private readonly IValidator<SignupRequest> _signupValidator;
     private readonly IValidator<LoginRequest> _loginValidator;
     private readonly IValidator<RefreshTokenRequest> _refreshTokenValidator;
@@ -24,6 +26,7 @@ public class AuthService : IAuthService
         IAuthRepository authRepository,
         IRoleRepository roleRepository,
         ITokenGenerator tokenGenerator,
+        ICloudinaryService cloudinaryService,
         IValidator<SignupRequest> signupValidator,
         IValidator<LoginRequest> loginValidator,
         IValidator<RefreshTokenRequest> refreshTokenValidator,
@@ -32,6 +35,7 @@ public class AuthService : IAuthService
         _authRepository = authRepository;
         _roleRepository = roleRepository;
         _tokenGenerator = tokenGenerator;
+        _cloudinaryService = cloudinaryService;
         _signupValidator = signupValidator;
         _loginValidator = loginValidator;
         _refreshTokenValidator = refreshTokenValidator;
@@ -55,6 +59,13 @@ public class AuthService : IAuthService
         var role = await _roleRepository.GetByNameAsync("User")
                    ?? throw new InvalidOperationException("Default user role not found.");
         var user = request.MapToUser(role.Id);
+        
+        var image = request.ProfilePicture;
+        if (image is not null)
+        {
+            var uploadResult = await _cloudinaryService.UploadImageAsync(image, "users");
+            user.ProfilePictureUrl = uploadResult.SecureUrl.ToString();
+        }
         
         await _authRepository.CreateAsync(user);
         

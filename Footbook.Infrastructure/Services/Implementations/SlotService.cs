@@ -23,22 +23,22 @@ public class SlotService : ISlotService
         _updateSlotValidator = updateSlotValidator;
     }
     
-    public async Task<CreateSlotResponse> CreateAsync(CreateSlotRequest request)
+    public async Task<SlotResponse> CreateAsync(CreateSlotRequest request)
     {
         await _createSlotValidator.ValidateAndThrowAsync(request);
         
         var slot = request.MapToSlot();
         var created = await _slotRepository.CreateAsync(slot);
-        return created.MapToCreateSlotResponse();
+        return created.MapToSlotResponse();
     }
     
-    public async Task<IEnumerable<CreateSlotResponse>> GetAllAsync()
+    public async Task<IEnumerable<SlotResponse>> GetAllAsync()
     {
         var slots = await _slotRepository.GetAllAsync();
-        return slots.Select(s => s.MapToCreateSlotResponse());
+        return slots.Select(s => s.MapToSlotResponse());
     }
     
-    public async Task<CreateSlotResponse> GetByIdAsync(Guid id)
+    public async Task<SlotResponse> GetByIdAsync(Guid id)
     {
         var slot = await _slotRepository.GetByIdAsync(id);
         
@@ -47,22 +47,22 @@ public class SlotService : ISlotService
             throw new KeyNotFoundException("Slot not found.");
         }
 
-        return slot.MapToCreateSlotResponse();
+        return slot.MapToSlotResponse();
     }
     
-    public async Task<IEnumerable<CreateSlotResponse>> GetByFieldIdAsync(Guid fieldId)
+    public async Task<IEnumerable<SlotResponse>> GetByFieldIdAsync(Guid fieldId)
     {
         var slots = await _slotRepository.GetByFieldIdAsync(fieldId);
-        return slots.Select(s => s.MapToCreateSlotResponse());
+        return slots.Select(s => s.MapToSlotResponse());
     }
     
-    public async Task<UpdateSlotResponse> UpdateAsync(Guid id, UpdateSlotRequest request)
+    public async Task<SlotResponse> UpdateAsync(Guid id, UpdateSlotRequest request)
     {
         await _updateSlotValidator.ValidateAndThrowAsync(request);
         
         var slot = request.MapToSlot(id);
         var updated = await _slotRepository.UpdateAsync(slot);
-        return updated.MapToUpdateSlotResponse();
+        return updated.MapToSlotResponse();
     }
     
     public async Task DeleteAsync(Guid id)

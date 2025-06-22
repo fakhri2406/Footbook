@@ -23,7 +23,7 @@ public class SlotController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Slot.GetAll)]
-    [ProducesResponseType(typeof(IEnumerable<CreateSlotResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<SlotResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -40,7 +40,7 @@ public class SlotController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Slot.GetById)]
-    [ProducesResponseType(typeof(CreateSlotResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SlotResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -57,7 +57,7 @@ public class SlotController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Slot.GetByField)]
-    [ProducesResponseType(typeof(IEnumerable<CreateSlotResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<SlotResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -79,7 +79,7 @@ public class SlotController : ControllerBase
     [HttpPost]
     [Route(ApiEndPoints.Slot.Create)]
     [Authorize(Roles = "Admin")]
-    [ProducesResponseType(typeof(CreateSlotResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(SlotResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -102,7 +102,7 @@ public class SlotController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route(ApiEndPoints.Slot.Update)]
-    [ProducesResponseType(typeof(UpdateSlotResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(SlotResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

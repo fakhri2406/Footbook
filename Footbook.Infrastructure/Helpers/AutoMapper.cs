@@ -55,16 +55,6 @@ public static class AutoMapper
         };
     }
     
-    public static CreateStadiumResponse MapToCreateStadiumResponse(this Stadium entity)
-    {
-        return new CreateStadiumResponse(
-            entity.Name,
-            entity.Branch,
-            entity.Address,
-            entity.Latitude,
-            entity.Longitude);
-    }
-    
     public static Stadium MapToStadium(this UpdateStadiumRequest request, Guid id)
     {
         return new Stadium
@@ -78,14 +68,15 @@ public static class AutoMapper
         };
     }
     
-    public static UpdateStadiumResponse MapToUpdateStadiumResponse(this Stadium entity)
+    public static StadiumResponse MapToStadiumResponse(this Stadium entity)
     {
-        return new UpdateStadiumResponse(
+        return new StadiumResponse(
             entity.Name,
             entity.Branch,
             entity.Address,
             entity.Latitude,
-            entity.Longitude);
+            entity.Longitude,
+            entity.ImageUrl);
     }
     
     #endregion
@@ -104,15 +95,6 @@ public static class AutoMapper
         };
     }
     
-    public static CreateFieldResponse MapToCreateFieldResponse(this Field entity)
-    {
-        return new CreateFieldResponse(
-            entity.Name,
-            entity.FieldType,
-            entity.StadiumId,
-            entity.Capacity);
-    }
-    
     public static Field MapToField(this UpdateFieldRequest request, Guid id)
     {
         return new Field
@@ -125,13 +107,14 @@ public static class AutoMapper
         };
     }
     
-    public static UpdateFieldResponse MapToUpdateFieldResponse(this Field entity)
+    public static FieldResponse MapToFieldResponse(this Field entity)
     {
-        return new UpdateFieldResponse(
+        return new FieldResponse(
             entity.Name,
             entity.FieldType,
             entity.StadiumId,
-            entity.Capacity);
+            entity.Capacity,
+            entity.ImageUrl);
     }
     
     #endregion
@@ -150,15 +133,6 @@ public static class AutoMapper
         };
     }
     
-    public static CreateSlotResponse MapToCreateSlotResponse(this Slot entity)
-    {
-        return new CreateSlotResponse(
-            entity.StartTime,
-            entity.EndTime,
-            entity.Status,
-            entity.FieldId);
-    }
-    
     public static Slot MapToSlot(this UpdateSlotRequest request, Guid id)
     {
         return new Slot
@@ -171,9 +145,9 @@ public static class AutoMapper
         };
     }
     
-    public static UpdateSlotResponse MapToUpdateSlotResponse(this Slot entity)
+    public static SlotResponse MapToSlotResponse(this Slot entity)
     {
-        return new UpdateSlotResponse(
+        return new SlotResponse(
             entity.StartTime,
             entity.EndTime,
             entity.Status,
@@ -196,13 +170,6 @@ public static class AutoMapper
         };
     }
     
-    public static CreateBookingResponse MapToCreateBookingResponse(this Booking entity)
-    {
-        return new CreateBookingResponse(
-            entity.UserId,
-            entity.SlotId);
-    }
-    
     public static Booking MapToBooking(this UpdateBookingRequest request, Guid id)
     {
         return new Booking
@@ -213,9 +180,9 @@ public static class AutoMapper
         };
     }
     
-    public static UpdateBookingResponse MapToUpdateBookingResponse(this Booking entity)
+    public static BookingResponse MapToBookingResponse(this Booking entity)
     {
-        return new UpdateBookingResponse(
+        return new BookingResponse(
             entity.UserId,
             entity.SlotId);
     }
@@ -235,14 +202,6 @@ public static class AutoMapper
         };
     }
     
-    public static CreateTeamResponse MapToCreateTeamResponse(this Team entity)
-    {
-        return new CreateTeamResponse(
-            entity.Name,
-            entity.CreatedByUserId,
-            entity.TeamMembers.Select(tm => tm.UserId).ToList());
-    }
-    
     public static Team MapToTeam(this UpdateTeamRequest request, Guid id)
     {
         return new Team
@@ -252,10 +211,11 @@ public static class AutoMapper
         };
     }
     
-    public static UpdateTeamResponse MapToUpdateTeamResponse(this Team entity)
+    public static TeamResponse MapToTeamResponse(this Team entity)
     {
-        return new UpdateTeamResponse(
+        return new TeamResponse(
             entity.Name,
+            entity.CreatedByUserId,
             entity.TeamMembers.Select(tm => tm.UserId).ToList());
     }
     

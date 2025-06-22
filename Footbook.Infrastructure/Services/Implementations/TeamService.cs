@@ -27,7 +27,7 @@ public class TeamService : ITeamService
         _updateTeamValidator = updateTeamValidator;
     }
     
-    public async Task<CreateTeamResponse> CreateAsync(CreateTeamRequest request)
+    public async Task<TeamResponse> CreateAsync(CreateTeamRequest request)
     {
         await _createTeamValidator.ValidateAndThrowAsync(request);
         
@@ -40,16 +40,16 @@ public class TeamService : ITeamService
                 new TeamMember { TeamId = created.Id, UserId = userId });
         }
         
-        return created.MapToCreateTeamResponse();
+        return created.MapToTeamResponse();
     }
     
-    public async Task<IEnumerable<CreateTeamResponse>> GetAllAsync()
+    public async Task<IEnumerable<TeamResponse>> GetAllAsync()
     {
         var teams = await _teamRepository.GetAllAsync();
-        return teams.Select(t => t.MapToCreateTeamResponse());
+        return teams.Select(t => t.MapToTeamResponse());
     }
     
-    public async Task<CreateTeamResponse> GetByIdAsync(Guid id)
+    public async Task<TeamResponse> GetByIdAsync(Guid id)
     {
         var team = await _teamRepository.GetByIdAsync(id);
         
@@ -58,7 +58,7 @@ public class TeamService : ITeamService
             throw new KeyNotFoundException("Team not found.");
         }
         
-        return team.MapToCreateTeamResponse();
+        return team.MapToTeamResponse();
     }
     
     public async Task<IEnumerable<Guid>> GetMembersAsync(Guid teamId)
@@ -66,7 +66,7 @@ public class TeamService : ITeamService
         return (await _teamMemberRepository.GetMembersAsync(teamId)).Select(u => u.Id);
     }
     
-    public async Task<UpdateTeamResponse> UpdateAsync(Guid id, UpdateTeamRequest request)
+    public async Task<TeamResponse> UpdateAsync(Guid id, UpdateTeamRequest request)
     {
         await _updateTeamValidator.ValidateAndThrowAsync(request);
         
@@ -85,7 +85,7 @@ public class TeamService : ITeamService
                 new TeamMember { TeamId = id, UserId = userId });
         }
         
-        return updated.MapToUpdateTeamResponse();
+        return updated.MapToTeamResponse();
     }
     
     public async Task AddMembersAsync(Guid teamId, IEnumerable<Guid> userIds)

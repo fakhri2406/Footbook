@@ -1,4 +1,5 @@
 using Footbook.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Footbook.Core.DTOs.Requests.Auth;
 
@@ -8,5 +9,6 @@ public record SignupRequest (
     string Email,
     string PhoneNumber,
     string Password,
-    SkillLevel SkillLevel
+    SkillLevel SkillLevel,
+    IFormFile? ProfilePicture
 );

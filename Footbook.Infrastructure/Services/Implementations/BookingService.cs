@@ -26,7 +26,7 @@ public class BookingService : IBookingService
         _updateBookingValidator = updateBookingValidator;
     }
     
-    public async Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request)
+    public async Task<BookingResponse> CreateAsync(CreateBookingRequest request)
     {
         await _createBookingValidator.ValidateAndThrowAsync(request);
         
@@ -39,16 +39,16 @@ public class BookingService : IBookingService
         
         var booking = request.MapToBooking();
         var created = await _bookingRepository.CreateAsync(booking);
-        return created.MapToCreateBookingResponse();
+        return created.MapToBookingResponse();
     }
     
-    public async Task<IEnumerable<CreateBookingResponse>> GetAllAsync()
+    public async Task<IEnumerable<BookingResponse>> GetAllAsync()
     {
         var bookings = await _bookingRepository.GetAllAsync();
-        return bookings.Select(b => b.MapToCreateBookingResponse());
+        return bookings.Select(b => b.MapToBookingResponse());
     }
     
-    public async Task<CreateBookingResponse> GetByIdAsync(Guid id)
+    public async Task<BookingResponse> GetByIdAsync(Guid id)
     {
         var booking = await _bookingRepository.GetByIdAsync(id);
         
@@ -57,28 +57,28 @@ public class BookingService : IBookingService
             throw new KeyNotFoundException("Booking not found.");
         }
         
-        return booking.MapToCreateBookingResponse();
+        return booking.MapToBookingResponse();
     }
     
-    public async Task<IEnumerable<CreateBookingResponse>> GetByUserIdAsync(Guid userId)
+    public async Task<IEnumerable<BookingResponse>> GetByUserIdAsync(Guid userId)
     {
         var bookings = await _bookingRepository.GetByUserIdAsync(userId);
-        return bookings.Select(b => b.MapToCreateBookingResponse());
+        return bookings.Select(b => b.MapToBookingResponse());
     }
     
-    public async Task<IEnumerable<CreateBookingResponse>> GetBySlotIdAsync(Guid slotId)
+    public async Task<IEnumerable<BookingResponse>> GetBySlotIdAsync(Guid slotId)
     {
         var bookings = await _bookingRepository.GetBySlotIdAsync(slotId);
-        return bookings.Select(b => b.MapToCreateBookingResponse());
+        return bookings.Select(b => b.MapToBookingResponse());
     }
     
-    public async Task<UpdateBookingResponse> UpdateAsync(Guid id, UpdateBookingRequest request)
+    public async Task<BookingResponse> UpdateAsync(Guid id, UpdateBookingRequest request)
     {
         await _updateBookingValidator.ValidateAndThrowAsync(request);
         
         var booking = request.MapToBooking(id);
         var updated = await _bookingRepository.UpdateAsync(booking);
-        return updated.MapToUpdateBookingResponse();
+        return updated.MapToBookingResponse();
     }
     
     public async Task DeleteAsync(Guid id)

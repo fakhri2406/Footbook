@@ -1,4 +1,5 @@
 using Footbook.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Footbook.Core.DTOs.Requests.Stadium;
 
@@ -7,5 +8,6 @@ public record CreateStadiumRequest(
     Branch Branch,
     string Address,
     double Latitude,
-    double Longitude
+    double Longitude,
+    IFormFile? Image
 );

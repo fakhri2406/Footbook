@@ -13,6 +13,7 @@ public class Stadium
     public string Address { get; set; } = null!;
     public double Latitude { get; set; }
     public double Longitude { get; set; }
+    public string? ImageUrl { get; set; }
     
     public ICollection<Field> Fields { get; set; } = new List<Field>();
 } 

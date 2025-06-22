@@ -23,7 +23,7 @@ public class TeamController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Team.GetAll)]
-    [ProducesResponseType(typeof(IEnumerable<CreateTeamResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<TeamResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -40,7 +40,7 @@ public class TeamController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Team.GetById)]
-    [ProducesResponseType(typeof(CreateTeamResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TeamResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,7 +78,7 @@ public class TeamController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route(ApiEndPoints.Team.Create)]
-    [ProducesResponseType(typeof(CreateTeamResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(TeamResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -117,7 +117,7 @@ public class TeamController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route(ApiEndPoints.Team.Update)]
-    [ProducesResponseType(typeof(UpdateTeamResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TeamResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

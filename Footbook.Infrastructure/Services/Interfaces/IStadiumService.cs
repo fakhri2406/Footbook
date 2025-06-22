@@ -5,9 +5,9 @@ namespace Footbook.Infrastructure.Services.Interfaces;
 
 public interface IStadiumService
 {
-    Task<CreateStadiumResponse> CreateAsync(CreateStadiumRequest request);
-    Task<IEnumerable<CreateStadiumResponse>> GetAllAsync();
-    Task<CreateStadiumResponse> GetByIdAsync(Guid id);
-    Task<UpdateStadiumResponse> UpdateAsync(Guid id, UpdateStadiumRequest request);
+    Task<StadiumResponse> CreateAsync(CreateStadiumRequest request);
+    Task<IEnumerable<StadiumResponse>> GetAllAsync();
+    Task<StadiumResponse> GetByIdAsync(Guid id);
+    Task<StadiumResponse> UpdateAsync(Guid id, UpdateStadiumRequest request);
     Task DeleteAsync(Guid id);
 } 

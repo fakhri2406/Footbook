@@ -24,7 +24,7 @@ public class BookingController : ControllerBase
     [HttpGet]
     [Route(ApiEndPoints.Booking.GetAll)]
     [Authorize(Roles = "Admin")]
-    [ProducesResponseType(typeof(IEnumerable<CreateBookingResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<BookingResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -42,7 +42,7 @@ public class BookingController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Booking.GetById)]
-    [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -59,7 +59,7 @@ public class BookingController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Booking.GetByUser)]
-    [ProducesResponseType(typeof(IEnumerable<CreateBookingResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<BookingResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -76,7 +76,7 @@ public class BookingController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route(ApiEndPoints.Booking.GetBySlot)]
-    [ProducesResponseType(typeof(IEnumerable<CreateBookingResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<BookingResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -97,7 +97,7 @@ public class BookingController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Route(ApiEndPoints.Booking.Create)]
-    [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -119,7 +119,7 @@ public class BookingController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Route(ApiEndPoints.Booking.Update)]
-    [ProducesResponseType(typeof(UpdateBookingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BookingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -1,4 +1,5 @@
 using System.Text;
+using CloudinaryDotNet;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,9 +10,11 @@ using Footbook.Data.DataAccess;
 using Footbook.Infrastructure.Tokens;
 using Footbook.Data.Repositories.Interfaces;
 using Footbook.Data.Repositories.Implementations;
+using Footbook.Infrastructure.ExternalServices.Cloudinary;
 using Footbook.Infrastructure.Services.Interfaces;
 using Footbook.Infrastructure.Services.Implementations;
 using Footbook.Infrastructure.Validators.Auth;
+using Microsoft.Extensions.Options;
 
 namespace Footbook.Infrastructure.ServiceCollectionExtensions;
 
@@ -118,7 +121,18 @@ public static class DependencyInjection
     
     public static IServiceCollection AddExternalServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // TODO: register external services
+        #region Cloudinary
+        
+        services.Configure<CloudinaryOptions>(configuration.GetSection("Cloudinary"));
+        services.AddSingleton<Cloudinary>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<CloudinaryOptions>>().Value;
+            var account = new Account(options.CloudName, options.ApiKey, options.ApiSecret);
+            return new Cloudinary(account);
+        });
+        services.AddScoped<ICloudinaryService, CloudinaryService>();
+        
+        #endregion
         
         return services;
     }

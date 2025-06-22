@@ -5,9 +5,9 @@ namespace Footbook.Infrastructure.Services.Interfaces;
 
 public interface IFieldService
 {
-    Task<CreateFieldResponse> CreateAsync(CreateFieldRequest request);
-    Task<IEnumerable<CreateFieldResponse>> GetAllAsync();
-    Task<CreateFieldResponse> GetByIdAsync(Guid id);
-    Task<UpdateFieldResponse> UpdateAsync(Guid id, UpdateFieldRequest request);
+    Task<FieldResponse> CreateAsync(CreateFieldRequest request);
+    Task<IEnumerable<FieldResponse>> GetAllAsync();
+    Task<FieldResponse> GetByIdAsync(Guid id);
+    Task<FieldResponse> UpdateAsync(Guid id, UpdateFieldRequest request);
     Task DeleteAsync(Guid id);
 } 

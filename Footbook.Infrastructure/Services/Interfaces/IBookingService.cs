@@ -5,11 +5,11 @@ namespace Footbook.Infrastructure.Services.Interfaces;
 
 public interface IBookingService
 {
-    Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request);
-    Task<IEnumerable<CreateBookingResponse>> GetAllAsync();
-    Task<CreateBookingResponse> GetByIdAsync(Guid id);
-    Task<UpdateBookingResponse> UpdateAsync(Guid id, UpdateBookingRequest request);
+    Task<BookingResponse> CreateAsync(CreateBookingRequest request);
+    Task<IEnumerable<BookingResponse>> GetAllAsync();
+    Task<BookingResponse> GetByIdAsync(Guid id);
+    Task<BookingResponse> UpdateAsync(Guid id, UpdateBookingRequest request);
     Task DeleteAsync(Guid id);
-    Task<IEnumerable<CreateBookingResponse>> GetByUserIdAsync(Guid userId);
-    Task<IEnumerable<CreateBookingResponse>> GetBySlotIdAsync(Guid slotId);
+    Task<IEnumerable<BookingResponse>> GetByUserIdAsync(Guid userId);
+    Task<IEnumerable<BookingResponse>> GetBySlotIdAsync(Guid slotId);
 } 

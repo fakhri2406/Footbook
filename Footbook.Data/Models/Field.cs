@@ -11,6 +11,7 @@ public class Field
     public string Name { get; set; } = null!;
     public FieldType FieldType { get; set; }
     public int Capacity { get; set; }
+    public string? ImageUrl { get; set; }
     
     public Guid StadiumId { get; set; }
     public Stadium Stadium { get; set; } = null!;

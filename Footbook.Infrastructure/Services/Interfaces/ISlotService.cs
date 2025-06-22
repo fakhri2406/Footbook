@@ -5,10 +5,10 @@ namespace Footbook.Infrastructure.Services.Interfaces;
 
 public interface ISlotService
 {
-    Task<CreateSlotResponse> CreateAsync(CreateSlotRequest request);
-    Task<IEnumerable<CreateSlotResponse>> GetAllAsync();
-    Task<CreateSlotResponse> GetByIdAsync(Guid id);
-    Task<UpdateSlotResponse> UpdateAsync(Guid id, UpdateSlotRequest request);
+    Task<SlotResponse> CreateAsync(CreateSlotRequest request);
+    Task<IEnumerable<SlotResponse>> GetAllAsync();
+    Task<SlotResponse> GetByIdAsync(Guid id);
+    Task<SlotResponse> UpdateAsync(Guid id, UpdateSlotRequest request);
     Task DeleteAsync(Guid id);
-    Task<IEnumerable<CreateSlotResponse>> GetByFieldIdAsync(Guid fieldId);
+    Task<IEnumerable<SlotResponse>> GetByFieldIdAsync(Guid fieldId);
 } 

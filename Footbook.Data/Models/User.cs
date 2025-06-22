@@ -15,6 +15,7 @@ public class User
     public string PasswordHash { get; set; } = null!;
     public string PasswordSalt { get; set; } = null!;
     public SkillLevel SkillLevel { get; set; }
+    public string? ProfilePictureUrl { get; set; } = null!;
     public bool IsBanned { get; set; }
     public DateTime? BannedUntil { get; set; }
     public DateTime CreatedAt { get; set; }
