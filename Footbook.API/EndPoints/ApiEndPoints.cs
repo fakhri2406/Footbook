@@ -73,6 +73,7 @@ public static class ApiEndPoints
         public const string GetAll = BaseUrl;
         public const string GetById = $"{BaseUrl}/{{id::guid}}";
         public const string GetByField = $"{BaseUrl}/field/{{fieldId::guid}}";
+        public const string Search = $"{BaseUrl}/search";
         public const string Create = BaseUrl;
         public const string Update = $"{BaseUrl}/{{id::guid}}";
         public const string Delete = $"{BaseUrl}/{{id::guid}}";

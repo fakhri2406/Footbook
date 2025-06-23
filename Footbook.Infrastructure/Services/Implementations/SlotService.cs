@@ -4,6 +4,7 @@ using Footbook.Core.DTOs.Responses.Slot;
 using Footbook.Data.Repositories.Interfaces;
 using Footbook.Infrastructure.Helpers;
 using Footbook.Infrastructure.Services.Interfaces;
+using System.Linq;
 
 namespace Footbook.Infrastructure.Services.Implementations;
 
@@ -68,5 +69,19 @@ public class SlotService : ISlotService
     public async Task DeleteAsync(Guid id)
     {
         await _slotRepository.DeleteAsync(id);
+    }
+    
+    public async Task<PaginatedList<SlotResponse>> SearchAsync(SlotSearchRequest request)
+    {
+        var (slots, totalCount) = await _slotRepository.SearchAsync(
+            request.StadiumName,
+            request.Date,
+            request.Region,
+            request.OnlyOpen,
+            request.Page,
+            request.PageSize);
+        
+        var items = slots.Select(s => s.MapToSlotResponse()).ToList();
+        return new PaginatedList<SlotResponse>(items, totalCount, request.Page, request.PageSize);
     }
 } 

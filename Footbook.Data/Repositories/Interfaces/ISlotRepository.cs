@@ -10,4 +10,5 @@ public interface ISlotRepository
     Task<IEnumerable<Slot>> GetByFieldIdAsync(Guid fieldId);
     Task<Slot> UpdateAsync(Slot slot);
     Task DeleteAsync(Guid id);
+    Task<(IEnumerable<Slot> Items, int TotalCount)> SearchAsync(string? stadiumName, DateTime? date, string? region, bool? onlyOpen, int page, int pageSize);
 } 

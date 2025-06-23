@@ -4,6 +4,7 @@ using Footbook.Core.DTOs.Responses.Slot;
 using Footbook.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Footbook.Infrastructure.Helpers;
 
 namespace Footbook.API.Controllers;
 
@@ -65,6 +66,23 @@ public class SlotController : ControllerBase
     {
         var responses = await _slotService.GetByFieldIdAsync(fieldId);
         return responses.Any() ? Ok(responses) : NoContent();
+    }
+    
+    /// <summary>
+    /// Search slots with filters and pagination
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Route(ApiEndPoints.Slot.Search)]
+    [ProducesResponseType(typeof(PaginatedList<SlotResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Search([FromBody] SlotSearchRequest request)
+    {
+        var result = await _slotService.SearchAsync(request);
+        return result.Items.Any() ? Ok(result) : NoContent();
     }
     
     #endregion
