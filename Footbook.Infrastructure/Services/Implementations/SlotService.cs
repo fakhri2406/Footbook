@@ -4,7 +4,6 @@ using Footbook.Core.DTOs.Responses.Slot;
 using Footbook.Data.Repositories.Interfaces;
 using Footbook.Infrastructure.Helpers;
 using Footbook.Infrastructure.Services.Interfaces;
-using System.Linq;
 
 namespace Footbook.Infrastructure.Services.Implementations;
 

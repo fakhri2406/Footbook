@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Footbook.Infrastructure.Helpers;
 
 public class PaginatedList<T>

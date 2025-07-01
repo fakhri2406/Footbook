@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Footbook.Data.Models;
-using System;
 
 namespace Footbook.Data.DataAccess;
 

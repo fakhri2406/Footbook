@@ -3,7 +3,6 @@ using Footbook.Data.DataAccess;
 using Footbook.Data.Models;
 using Footbook.Data.Repositories.Interfaces;
 using Footbook.Core.Enums;
-using System.Linq;
 
 namespace Footbook.Data.Repositories.Implementations;
 

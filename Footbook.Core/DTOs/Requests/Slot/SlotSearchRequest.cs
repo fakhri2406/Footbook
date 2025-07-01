@@ -1,5 +1,3 @@
-using System;
-
 namespace Footbook.Core.DTOs.Requests.Slot;
 
 public record SlotSearchRequest(

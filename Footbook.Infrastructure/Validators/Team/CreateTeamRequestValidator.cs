@@ -1,4 +1,3 @@
-using System.Linq;
 using FluentValidation;
 using Footbook.Core.DTOs.Requests.Team;
 
