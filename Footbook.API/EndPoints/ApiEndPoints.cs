@@ -18,6 +18,20 @@ public static class ApiEndPoints
     
     #endregion
     
+    #region User
+    
+    public static class User
+    {
+        private const string BaseUrl = $"{ApiBaseUrl}/user";
+        
+        public const string GetAll = BaseUrl;
+        public const string GetById = $"{BaseUrl}/{{id::guid}}";
+        public const string Update = $"{BaseUrl}/{{id::guid}}";
+        public const string Delete = $"{BaseUrl}/{{id::guid}}";
+    }
+    
+    #endregion
+    
     #region Booking
     
     public static class Booking
