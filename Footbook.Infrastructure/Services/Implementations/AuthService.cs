@@ -14,6 +14,7 @@ namespace Footbook.Infrastructure.Services.Implementations;
 public class AuthService : IAuthService
 {
     private readonly IAuthRepository _authRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly ICloudinaryService _cloudinaryService;
@@ -24,6 +25,7 @@ public class AuthService : IAuthService
     
     public AuthService(
         IAuthRepository authRepository,
+        IUserRepository userRepository,
         IRoleRepository roleRepository,
         ITokenGenerator tokenGenerator,
         ICloudinaryService cloudinaryService,
@@ -33,6 +35,7 @@ public class AuthService : IAuthService
         IValidator<LogoutRequest> logoutValidator)
     {
         _authRepository = authRepository;
+        _userRepository = userRepository;
         _roleRepository = roleRepository;
         _tokenGenerator = tokenGenerator;
         _cloudinaryService = cloudinaryService;
@@ -46,12 +49,12 @@ public class AuthService : IAuthService
     {
         await _signupValidator.ValidateAndThrowAsync(request);
         
-        if (await _authRepository.GetByEmailAsync(request.Email) != null)
+        if (await _userRepository.GetByEmailAsync(request.Email) != null)
         {
             throw new ArgumentException("Email already exists.");
         }
         
-        if (await _authRepository.GetByPhoneNumberAsync(request.PhoneNumber) != null)
+        if (await _userRepository.GetByPhoneNumberAsync(request.PhoneNumber) != null)
         {
             throw new ArgumentException("Phone number already exists.");
         }
@@ -87,7 +90,7 @@ public class AuthService : IAuthService
     {
         await _loginValidator.ValidateAndThrowAsync(request);
         
-        var user = await _authRepository.GetByEmailAsync(request.Email)
+        var user = await _userRepository.GetByEmailAsync(request.Email)
                    ?? throw new KeyNotFoundException("Invalid email or password.");
         
         var hashed = Hasher.HashPassword(request.Password + user.PasswordSalt);
@@ -97,7 +100,7 @@ public class AuthService : IAuthService
         }
         
         user.LastLoginAt = DateTime.UtcNow;
-        await _authRepository.UpdateAsync(user);
+        await _userRepository.UpdateAsync(user);
         
         var accessToken = _tokenGenerator.GenerateAccessToken(user);
         var refreshTokenValue = _tokenGenerator.GenerateRefreshToken();

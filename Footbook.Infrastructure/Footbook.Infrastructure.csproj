@@ -8,9 +8,6 @@
 
     <ItemGroup>
       <Folder Include="ExternalServices\" />
-      <Folder Include="Services\Implementations\" />
-      <Folder Include="Services\Interfaces\" />
-      <Folder Include="Validators\" />
     </ItemGroup>
 
     <ItemGroup>

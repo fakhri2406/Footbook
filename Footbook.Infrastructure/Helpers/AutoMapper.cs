@@ -9,8 +9,10 @@ using Footbook.Core.DTOs.Requests.Booking;
 using Footbook.Core.DTOs.Requests.Notification;
 using Footbook.Core.DTOs.Responses.Booking;
 using Footbook.Core.DTOs.Requests.Team;
+using Footbook.Core.DTOs.Requests.User;
 using Footbook.Core.DTOs.Responses.Notification;
 using Footbook.Core.DTOs.Responses.Team;
+using Footbook.Core.DTOs.Responses.User;
 using Footbook.Data.Models;
 
 namespace Footbook.Infrastructure.Helpers;
@@ -30,14 +32,46 @@ public static class AutoMapper
             Email = request.Email,
             PhoneNumber = "+994" + request.PhoneNumber,
             SkillLevel = request.SkillLevel,
-            PasswordSalt = salt,
             PasswordHash = Hasher.HashPassword(request.Password + salt),
+            PasswordSalt = salt,
             CreatedAt = DateTime.UtcNow,
             LastLoginAt = DateTime.UtcNow,
             RoleId = roleId
         };
     }
     
+    #endregion
+
+    #region User
+    
+    public static User MapToUser(this UpdateUserRequest request, Guid id)
+    {
+        var salt = Guid.NewGuid().ToString();
+        return new User
+        {
+            Id = id,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            PhoneNumber = "+994" + request.PhoneNumber,
+            PasswordHash = Hasher.HashPassword(request.Password + salt),
+            PasswordSalt = salt,
+            SkillLevel = request.SkillLevel
+        };
+    }
+
+    public static UserResponse MapToUserResponse(this User entity)
+    {
+        return new UserResponse(
+            entity.FirstName,
+            entity.LastName,
+            entity.Email,
+            entity.PhoneNumber,
+            entity.SkillLevel,
+            entity.ProfilePictureUrl
+        );
+    }
+
     #endregion
     
     #region Stadium

@@ -23,6 +23,7 @@ public static class DependencyInjection
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IStadiumRepository, StadiumRepository>();
         services.AddScoped<IFieldRepository, FieldRepository>();
@@ -38,6 +39,7 @@ public static class DependencyInjection
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IStadiumService, StadiumService>();
         services.AddScoped<IFieldService, FieldService>();
         services.AddScoped<ISlotService, SlotService>();
