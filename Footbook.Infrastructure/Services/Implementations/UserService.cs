@@ -47,6 +47,16 @@ public class UserService : IUserService
     {
         await _updateUserValidator.ValidateAndThrowAsync(request);
         
+        if (await _userRepository.GetByEmailAsync(request.Email) != null)
+        {
+            throw new ArgumentException("Email already exists.");
+        }
+        
+        if (await _userRepository.GetByPhoneNumberAsync(request.PhoneNumber) != null)
+        {
+            throw new ArgumentException("Phone number already exists.");
+        }
+        
         var user = request.MapToUser(id);
         
         var image = request.ProfilePicture;
